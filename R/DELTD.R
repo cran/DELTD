@@ -39,7 +39,7 @@ denGamma<-function(y,k,h){
 #' @param k gird points.
 #' @param h the bandwidth
 #' @param type mention distribution of vector.If exponential distribution then use "Exp".
-#'     if use gamma distribution then use "Gamma".
+#'     If use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
 #' @import graphics
 #' @import stats
 #' @examples
@@ -54,7 +54,7 @@ mseGamma<-function(y,k,h,type){
   ftrue<-switch(type,
 
                 Exp = dexp(x,(1/mean(x))),
-
+                Weibull = dweibull(x, ((sd(x)/mean(x))^-1.806), scale = 1, log = FALSE),
                 Gamma = dgamma(x,(mean(x)/(var(x)/mean(x))),(var(x)/mean(x)))
 
   )
@@ -111,7 +111,7 @@ denLN<-function(y,k,h){
 #' @param k gird points.
 #' @param h the bandwidth
 #' @param type mention distribution of vector.If exponential distribution then use "Exp".
-#'     if use gamma distribution then use "Gamma".
+#'     if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
 #' @import graphics
 #' @import stats
 #' @examples
@@ -126,7 +126,7 @@ mseLN<-function(y,k,h,type){
   ftrue<-switch(type,
 
                 Exp = dexp(x,(1/mean(x))),
-
+                Weibull = dweibull(x, ((sd(x)/mean(x))^-1.806), scale = 1, log = FALSE),
                 Gamma = dgamma(x,(mean(x)/(var(x)/mean(x))),(var(x)/mean(x)))
 
   )
@@ -182,7 +182,7 @@ denEr<-function(y,k,h){
 #' @param k gird points.
 #' @param h the bandwidth
 #' @param type mention distribution of vector.If exponential distribution then use "Exp".
-#'     if use gamma distribution then use "Gamma".
+#'     if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
 #' @import graphics
 #' @import stats
 #' @examples
@@ -197,7 +197,7 @@ mseEr<-function(y,k,h,type){
   ftrue<-switch(type,
 
                 Exp = dexp(x,(1/mean(x))),
-
+                Weibull = dweibull(x, ((sd(x)/mean(x))^-1.806), scale = 1, log = FALSE),
                 Gamma = dgamma(x,(mean(x)/(var(x)/mean(x))),(var(x)/mean(x)))
 
   )
@@ -255,7 +255,7 @@ denBS<-function(y,k,h){
 #' @param k gird points.
 #' @param h the bandwidth
 #' @param type mention distribution of vector.If exponential distribution then use "Exp".
-#'     if use gamma distribution then use "Gamma".
+#'     if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".
 #' @import graphics
 #' @import stats
 #' @examples
@@ -270,7 +270,7 @@ mseBS<-function(y,k,h,type){
   ftrue<-switch(type,
 
                 Exp = dexp(x,(1/mean(x))),
-
+                Weibull = dweibull(x, ((sd(x)/mean(x))^-1.806), scale = 1, log = FALSE),
                 Gamma = dgamma(x,(mean(x)/(var(x)/mean(x))),(var(x)/mean(x)))
 
   )
@@ -286,3 +286,126 @@ mseBS<-function(y,k,h,type){
   }#2nd loop end
   return(mean((ftrue-fhat)^2))#mse of fhat w.r.t. the true density
 }#function end
+
+#' Plot the densities for comparison.
+#'
+#' Plot the Estimated Densities with Real Density for Comparison .
+#' @param y a numeric vector of positive values.
+#' @param k gird points.
+#' @param h the bandwidth
+#' @param comb mention the combination which kernel estimated densities are to be compared. If Lognormal and Birnbaum-Saunders kernel densities
+#'           are to be compared along with real density then use "TLB". If Lognormal and Erlang then use "TLE". If Lognormal and Gamma to be compared
+#'           then use "TLG". For Birnbaum-Saunders and Erlang use "TBE". For Birnbaum-Saunders and Gamma then use "TBG". For Erlang and Gamma use "TEG".
+#' @import graphics
+#' @import stats
+#' @examples
+#' \dontshow{
+#' y<-rexp(10,1)
+#' h<-0.79 * IQR(y) * length(y) ^ (-1/5)
+#' dencomb(y,20,h,"TLB")}
+#' @return Plot of Estimated Densities with Real Data Density.
+#' @export
+dencomb<-function(y,k,h,comb){
+  n <- length(y)
+  x <- seq(min(y) + 0.05, max(y), length = k)
+  KLNormal <- matrix(rep(0, k * n), ncol = k)
+  Kbs <- matrix(rep(0, k * n), ncol = k)
+  KErlang <- matrix(rep(0, k * n), ncol = k)
+  Kgamma <- matrix(rep(0, k * n), ncol = k)
+  fhat1 <- rep(0, k)
+  fhat2<- rep(0, k)
+  fhat3 <- rep(0, k)
+  fhat4 <- rep(0, k)
+  new<-switch(comb,
+
+              TLB = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat2[j] <- 1/n * (sum(Kbs[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat2,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Lognormal Kernel","Density by Birnbaum-Saunders Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TLE = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat3,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Lognormal Kernel","Density by Erlang Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TLG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Lognormal Kernel","Density by Gamma Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TBE = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                }
+                fhat2[j] <- 1/n * (sum(Kbs [, j]))
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat2, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat3,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Birnbaum-Saunders Kernel","Density by Erlang Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TBG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat2[j] <- 1/n * (sum(Kbs [, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat2, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Birnbaum-Saunders Kernel","Density by Gamma Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TEG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat3, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Erlang Kernel","Density by Gamma Kernel"),
+                       col=c("blue", "black", "red"), lty=c(1,2,6))
+              }
+  )
+
+}
+

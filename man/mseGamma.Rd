@@ -14,7 +14,7 @@ mseGamma(y, k, h, type)
 \item{h}{the bandwidth}
 
 \item{type}{mention distribution of vector.If exponential distribution then use "Exp".
-if use gamma distribution then use "Gamma".}
+If use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
 }
 \value{
 MSE
