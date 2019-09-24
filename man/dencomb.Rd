@@ -15,7 +15,9 @@ dencomb(y, k, h, comb)
 
 \item{comb}{mention the combination which kernel estimated densities are to be compared. If Lognormal and Birnbaum-Saunders kernel densities
 are to be compared along with real density then use "TLB". If Lognormal and Erlang then use "TLE". If Lognormal and Gamma to be compared
-then use "TLG". For Birnbaum-Saunders and Erlang use "TBE". For Birnbaum-Saunders and Gamma then use "TBG". For Erlang and Gamma use "TEG".}
+then use "TLG". For Birnbaum-Saunders and Erlang use "TBE". For Birnbaum-Saunders and Gamma then use "TBG". For Erlang and Gamma use "TEG".
+For Lognormal, Birnbaum-Saunders and Erlang use "TLBE". For Lognormal, Birnbaum-Saunders and Gamma use "TLBG". For Birnbaum-Saunders, Erlang and Gamma
+use "TBEG". To compare all densities in one graph use "TLBEG".}
 }
 \value{
 Plot of Estimated Densities with Real Data Density.

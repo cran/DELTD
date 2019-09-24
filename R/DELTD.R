@@ -296,6 +296,8 @@ mseBS<-function(y,k,h,type){
 #' @param comb mention the combination which kernel estimated densities are to be compared. If Lognormal and Birnbaum-Saunders kernel densities
 #'           are to be compared along with real density then use "TLB". If Lognormal and Erlang then use "TLE". If Lognormal and Gamma to be compared
 #'           then use "TLG". For Birnbaum-Saunders and Erlang use "TBE". For Birnbaum-Saunders and Gamma then use "TBG". For Erlang and Gamma use "TEG".
+#'           For Lognormal, Birnbaum-Saunders and Erlang use "TLBE". For Lognormal, Birnbaum-Saunders and Gamma use "TLBG". For Birnbaum-Saunders, Erlang and Gamma
+#'           use "TBEG". To compare all densities in one graph use "TLBEG".
 #' @import graphics
 #' @import stats
 #' @examples
@@ -404,8 +406,90 @@ dencomb<-function(y,k,h,comb){
                 lines(d1,type="S",col="blue",lty=3,lwd=2)
                 legend("topright", c("Real Density", "Density by Erlang Kernel","Density by Gamma Kernel"),
                        col=c("blue", "black", "red"), lty=c(1,2,6))
+              },
+              TLBE =	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat2[j] <- 1/n * (sum(Kbs[, j]))
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                par(new=T)
+                plot(x,fhat2, type = "s",pch="+",col="green",xaxt="n", yaxt="n", xlab="", ylab="")
+                points(x,fhat3,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Log Normal Kernel","Density by Birnbaum-Saunders Kernel", "Density by Erlang Kernel"),
+                       col=c("blue", "black", "green","red"), lty=c(1,2,3,6))
+              },
+              TLBG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat2[j] <- 1/n * (sum(Kbs[, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                par(new=T)
+                plot(x,fhat2, type = "s",pch="+",col="green",xaxt="n", yaxt="n", xlab="", ylab="")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Log Normal Kernel","Density by Birnbaum-Saunders Kernel", "Density by Gamma Kernel"),
+                       col=c("blue", "black", "green","red"), lty=c(1,2,3,6))
+              },
+              TBEG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat2[j] <- 1/n * (sum(Kbs[, j]))
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat2, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                par(new=T)
+                plot(x,fhat3, type = "s",pch="+",col="green",xaxt="n", yaxt="n", xlab="", ylab="")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Birnbaum-Saunders Kernel", "Density by Erlang Kernel","Density by Gamma Kernel"),
+                       col=c("blue", "black", "green","red"), lty=c(1,2,3,6))
+              },
+              TLBEG = 	for(j in 1:k) {
+                for(i in 1:n) {
+                  KLNormal [i, j] <-(1/(y[i]*sqrt(8*pi*log(1+h))))*exp(-(((log(y[i])-log(x[j]))^2)/(8*log(1+h))))
+                  Kbs[i, j] <-(1/(2*sqrt(2*h*pi)))*((sqrt(1/(x[j]*y[i])))+(sqrt(x[j]/(y[i]^3))))*exp(-(y[i]/(2*h*x[j]))+(1/h)-(x[j]/(2*h*y[i])))
+                  KErlang[i, j] <-(1/(gamma(1+(1/h))))*((1/x[j])*(1+(1/h)))^((h+1)/h)*y[i]^(1/h)*exp(-y[i]/x[j]*(1+(1/h)))
+                  fn<-gamma((x[j]/h)+1)
+                  Kgamma[i, j] <-((y[i]^(x[j]/h))*(exp(-(y[i]/h))))/(h^((x[j]/h)+1)*fn)
+                }
+                fhat1[j] <- 1/n * (sum(KLNormal [, j]))
+                fhat2[j] <- 1/n * (sum(Kbs[, j]))
+                fhat3[j] <- 1/n * (sum(KErlang[, j]))
+                fhat4[j] <- 1/n * (sum(Kgamma[, j]))
+                d1<-density(y,bw=h)
+                plot(x,fhat1, type = "s", ylab = "Density Function", lty = 1,ylim=c(0,1), xlab = "Time")
+                par(new=T)
+                plot(x,fhat2, type = "s",pch="+",col="darkorange",xaxt="n", yaxt="n", xlab="", ylab="")
+                par(new=T)
+                plot(x,fhat3, type = "s",pch="+",col="green",xaxt="n", yaxt="n", xlab="", ylab="")
+                points(x,fhat4,type="p",col="red")
+                lines(d1,type="S",col="blue",lty=3,lwd=2)
+                legend("topright", c("Real Density", "Density by Log Normal Kernel","Density by Birnbaum-Saunders Kernel", "Density by Erlang Kernel","Density by Gamma Kernel"),
+                       col=c("blue", "black", "darkorange","green","red"), lty=c(1,2,3,4,6))
               }
   )
 
 }
+
+
+
 
