@@ -2,7 +2,7 @@
 % Please edit documentation in R/DELTD.R
 \name{mseEr}
 \alias{mseEr}
-\title{Calculate Mean Square Error( MSE) when Erlang kernel is used.}
+\title{Calculate Mean Squared Error( MSE) when Erlang kernel is used}
 \usage{
 mseEr(y, k, h, type)
 }
@@ -13,8 +13,8 @@ mseEr(y, k, h, type)
 
 \item{h}{the bandwidth}
 
-\item{type}{mention distribution of vector.If exponential distribution then use "Exp".
-if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
+\item{type}{mention distribution of vector.If exponential distribution then use \code{"Exp"}.
+if use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.}
 }
 \value{
 MSE
@@ -23,7 +23,16 @@ MSE
 Calculate MSE by using Erlang Kernel.
 }
 \examples{
-y<-rexp(100,1)
-h<-0.79 * IQR(y) * length(y) ^ (-1/5)
+y <- rexp(100,1)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
 mseEr(y,200,h,"Exp")
+}
+\references{
+Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation ksing Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141–152.
+}
+\seealso{
+For further MSE by using other kernels see \code{\link{mseBS}}, \code{\link{mseLN}} and \code{\link{mseGamma}}. For estimated values for density estimation \code{\link{Erlang}} and for density estimation by using Erlang Kernel \code{\link{plot.Erlang}}.
+}
+\author{
+Javaria Ahmad Khan, Atif Akbar.
 }

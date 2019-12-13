@@ -2,7 +2,7 @@
 % Please edit documentation in R/DELTD.R
 \name{mseGamma}
 \alias{mseGamma}
-\title{Calculate Mean Square Error( MSE) when Gamma kernel is used.}
+\title{Calculate Mean Squared Error( MSE) when Gamma kernel is used}
 \usage{
 mseGamma(y, k, h, type)
 }
@@ -13,8 +13,8 @@ mseGamma(y, k, h, type)
 
 \item{h}{the bandwidth}
 
-\item{type}{mention distribution of vector.If exponential distribution then use "Exp".
-If use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
+\item{type}{mention distribution of vector.If exponential distribution then use \code{"Exp"}.
+If use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.}
 }
 \value{
 MSE
@@ -23,7 +23,17 @@ MSE
 Calculate MSE by using Gamma Kernel.
 }
 \examples{
-y<-rexp(100,1)
-h<-0.79 * IQR(y) * length(y) ^ (-1/5)
+y <- rexp(100,1)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
 mseGamma(y,200,h,"Exp")
+}
+\references{
+Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+}
+\seealso{
+For further MSE by using other kernels see \code{\link{mseBS}}, \code{\link{mseEr}} and \code{\link{mseLN}}. For density estimation by using Gamma Kernel \code{\link{plot.Gamma}} and for estimated values
+of density \code{\link{Gamma}}.
+}
+\author{
+Javaria Ahmad Khan, Atif Akbar.
 }

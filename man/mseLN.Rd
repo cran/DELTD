@@ -2,7 +2,7 @@
 % Please edit documentation in R/DELTD.R
 \name{mseLN}
 \alias{mseLN}
-\title{Calculate Mean Square Error( MSE) when LogNormal Kernel is used.}
+\title{Calculate Mean Squared Error( MSE) when Lognormal Kernel is used}
 \usage{
 mseLN(y, k, h, type)
 }
@@ -13,8 +13,8 @@ mseLN(y, k, h, type)
 
 \item{h}{the bandwidth}
 
-\item{type}{mention distribution of vector.If exponential distribution then use "Exp".
-if use gamma distribution then use "Gamma".If Weibull distribution then use "Weibull".}
+\item{type}{mention distribution of vector.If exponential distribution then use \code{"Exp"}.
+if use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.}
 }
 \value{
 MSE
@@ -23,7 +23,16 @@ MSE
 Calculate MSE by using Lognormal Kernel.
 }
 \examples{
-y<-rexp(100,1)
-h<-0.79 * IQR(y) * length(y) ^ (-1/5)
+y <- rexp(100,1)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
 mseLN(y,200,h,"Exp")
+}
+\references{
+Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103–124.
+}
+\seealso{
+For further MSE by using other kernels see \code{\link{mseBS}}, \code{\link{mseEr}} and \code{\link{mseGamma}}. For estimated values and for density estimation by using Lognormal Kernel see \code{\link{LN}} and \code{\link{plot.LN}}, respectively.
+}
+\author{
+Javaria Ahmad Khan, Atif Akbar.
 }
