@@ -2,11 +2,13 @@
 % Please edit documentation in R/DELTD.R
 \name{Erlang}
 \alias{Erlang}
-\title{Estimated Density Values by Erlang kernel}
+\title{Estimate Density Values by Erlang kernel}
 \usage{
-Erlang(y, k, h)
+Erlang(x = NULL, y, k = NULL, h = NULL)
 }
 \arguments{
+\item{x}{scheme for generating grid points}
+
 \item{y}{a numeric vector of positive values.}
 
 \item{k}{gird points.}
@@ -18,23 +20,56 @@ Erlang(y, k, h)
         \item{y}{estimated values of density}
 }
 \description{
-Estimated values for density by using Erlang Kernel.
-}
-\details{
-Erlang kernel is developed by Salha et al. (2014). They developed this asymmetrical kernal with its hazard function and also
+This function provide the estimated values for density by using Erlang Kernel. Erlang kernel is developed by Salha et al. (2014). They developed this asymmetrical kernal with its hazard function and also
 proved its asymtotic normality.
 \deqn{K_{E(x,\frac{1}{h})}  (y)=\frac{1}{\Gamma (1+\frac{1}{h})} \left[\frac{1}{x} (1+\frac{1}{h}) \right]^\frac{h+1}{h} y^\frac{1}{h} exp\left(-\frac{y}{x} (1+\frac{1}{h}) \right)}
 }
+\details{
+see the details in the \code{\link{BS}}.
+}
 \examples{
-y <- rexp(100,1)
-h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-Erlang(y,200,h)
+## Data: Simulated or real data can be used
+## Number of grid points "k" should be at least equal to the data size.
+## If user defines the generating scheme of grid points then length
+## of grid points should be equal or greater than "k", Otherwise NA will be produced.
+y <- rlnorm(100, meanlog = 0, sdlog = 1)
+xx <- seq(min(y) + 0.05, max(y), length = 500)
+h <-2
+den <- Erlang(x = xx, y = y, k = 200, h = h)
+
+##If scheme for generating grid points is unknown
+y <- rlnorm(1000, meanlog = 0, sdlog = 1)
+h <- 3
+Erlang(y = y, k = 90, h = h)
+
+\dontrun{
+##If user do not mention the number of grid points
+ y <- rlnorm(100, meanlog = 0, sdlog = 1)
+xx <- seq(0.001, 1000, length = 1000)
+
+#any bandwidth can be used
+require(kedd)
+h <- h.ucv(y)     #Unbaised cross validation bandwidth
+Erlang(x = xx, y = y, h = h)
+}
+
+\dontrun{
+#if generating scheme and number of grid points are missing then function generate NA
+y <- rlnorm(100, meanlog = 0, sdlog = 1)
+band = 3
+Erlang(y = y, h = band)
+}
+
+#if bandwidth is missing
+ y <- rlnorm(100, meanlog = 0, sdlog = 1)
+xx <- seq(0.001, 100, length = 100)
+Erlang(x = xx, y = y, k = 90)
 }
 \references{
-Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation ksing Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141–152.
+Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141-152.
 }
 \seealso{
-For further MSE by using other kernels see \code{\link{BS}}, \code{\link{Gamma}} and \code{\link{LN}}. For plotting these estimated values \code{\link{plot.Erlang}} and for calculating MSE by using Erlang Kernel \code{\link{mseEr}}.
+For further MSE by using other kernels see \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Gamma}} and \code{\link{LogN}}. For plotting these estimated values \code{\link{plot.Erlang}} and for calculating MSE use \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

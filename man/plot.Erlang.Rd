@@ -18,20 +18,30 @@ Nothing
 Plot Kernel density by using Erlang Kernel.
 }
 \examples{
-y <- rexp(23,1)
+y <- rlnorm(100, meanlog = 0, sdlog = 1)
+h <- 1.5
+xx <- seq(min(y) + 0.05, max(y), length = 200)
+den <- Erlang(x = xx, y = y, k = 200, h = h)
+plot(den, type = "l")
+
+##other details can also be added
+y <- rlnorm(100, meanlog = 0, sdlog = 1)
+grid <- seq(min(y) + 0.05, max(y), length = 200)
 h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-ans <- Erlang(y,90,h)
-plot(ans, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+gr <- Erlang(x = grid, y = y, k = 200, h = h)
+plot(gr, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+
 ## To add true density along with estimated
-d1<-density(y,bw=h)
-lines(d1,type="p",col="red")
-legend("topright", c("Real Density", "Density by Erlang Kernel"), col=c("red", "black"), lty=c(1,2))
+d1 <- density(y, bw = h)
+lines(d1, type = "p", col = "red")
+legend("topright", c("Real Density", "Density by Erlang Kernel"),
+col=c("red", "black"), lty=c(1,2))
 }
 \references{
-Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation ksing Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141–152.
+Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141-152.
 }
 \seealso{
-For further MSE by using other kernels see \code{\link{plot.BS}}, \code{\link{plot.Gamma}} and \code{\link{plot.LN}}. For estimated values \code{\link{Erlang}} and for calculating MSE by using Erlang Kernel \code{\link{mseEr}}.
+For further MSE by using other kernels see \code{\link{plot.Beta}}, \code{\link{plot.BS}}, \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. For estimated values \code{\link{Erlang}} and for calculating MSE see \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

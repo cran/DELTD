@@ -18,19 +18,31 @@ Nothing
 Plot Kernel density by using Birnbaum-Saunders Kernel.
 }
 \examples{
-y <- rexp(100,1)
-h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-den <- BS(y,200,h)
-plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+alpha = 10
+theta = 15 / 60
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+h <- 1.5
+xx <- seq(min(y) + 0.05, max(y), length = 200)
+den <- BS(x = xx, y = y, k = 200, h = h)
+plot(den, type = "l")
+
+##other details can also be added
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+h <- 0.79 * IQR(y) * length(y) ^ (-1/5)  #Normal Scale Rule Bandwidth
+gr <- BS(x = xx, y = y, k = 200, h = h)
+plot(gr, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+
 ## To add true density along with estimated
-d1<-density(y,bw=h)
-lines(d1,type="p",col="green")
+d1 <- density(y, bw = h)
+lines(d1, type = "p", col = "red")
+legend("topright", c("Real Density", "Density by Birnbaum-Saunders Kernel"),
+col=c("red", "black"), lty = c(1,2))
 }
 \references{
-Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103–124.
+Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
 }
 \seealso{
-For further kernels see \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.LN}}. For estimated values \code{\link{BS}} and for MSE \code{\link{mseBS}}.
+For further kernels see  \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. For estimated values \code{\link{BS}} and for MSE \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

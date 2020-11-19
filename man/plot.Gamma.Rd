@@ -7,7 +7,7 @@
 \method{plot}{Gamma}(x, ...)
 }
 \arguments{
-\item{x}{an object of class "BS"}
+\item{x}{an object of class "Gamma"}
 
 \item{\dots}{Not presently used in this implementation}
 }
@@ -18,17 +18,31 @@ nothing
 Plot density by using Gamma Kernel.
 }
 \examples{
-y <- rexp(100,1)
+y <- rexp(100, 1)
+h <- 1.5
+xx <- seq(min(y) + 0.05, max(y), length =200)
+den <- Gamma(x=xx, y=y, k=200, h=h)
+plot(den, type = "l")
+
+##other details can also be added
+y <- rexp(100, 2)
 h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-den <- Gamma(y,200,h)
-plot(den, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+gr <- Gamma(x=xx, y=y, k=200, h=h)
+plot(gr, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
+
+## To add true density along with estimated
+d1 <- density(y, bw=h)
+lines(d1, type="p", col="red")
+legend("topright", c("Real Density", "Density by Gamma Kernel"),
+col=c("red", "black"), lty=c(1,2))
+
 }
 \references{
 Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
 }
 \seealso{
-For further kernels see \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LN}}. To calculate its estimated values see \code{\link{Gamma}} and for
-MSE by using Gamma Kernel \code{\link{mseGamma}}.
+For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Gamma}} and for
+MSE \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

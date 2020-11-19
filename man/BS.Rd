@@ -2,11 +2,13 @@
 % Please edit documentation in R/DELTD.R
 \name{BS}
 \alias{BS}
-\title{Estimated Density Values by Birnbaum-Saunders kernel}
+\title{Estimate Density Values by Birnbaum-Saunders kernel}
 \usage{
-BS(y, k, h)
+BS(x = NULL, y, k = NULL, h = NULL)
 }
 \arguments{
+\item{x}{scheme for generating grid points}
+
 \item{y}{a numeric vector of positive values.}
 
 \item{k}{gird points}
@@ -18,23 +20,61 @@ BS(y, k, h)
         \item{y}{estimated values of density}
 }
 \description{
-Estimated Values by using Birnbaum-Saunders Kernel.
-}
-\details{
-The Birnbaum-Saunders kernel is developed by Jin and Kawczak (2003). They claimed that performance of their developed kernel is better near the
+This function calculates the estimated Values by using Birnbaum-Saunders Kernel. The Birnbaum-Saunders kernel is developed by Jin and Kawczak (2003). They claimed that performance of their developed kernel is better near the
 boundary points in terms of boundary reduction.
 \deqn{K_{BS(h^\frac{1}{2},x)} (y)=\frac{1}{2\sqrt 2 \pi h} \left(\sqrt \frac{1}{xy} +\sqrt\frac{x}{y^3}\right)exp\left(-\frac{1}{2h}\left(\frac{y}{x}-2+\frac{x}{y}\right)\right)}
 }
+\details{
+In this function, choice of bandwidth, number of grid points and scheme that how these grid points are generated are user based. If any parameter(s) is missing then function used default parameters.
+But at least \code{x} or \code{k} should be specified otherwise \code{NA} will be produced. If \code{x} is missing then function will generate \code{k} grid points between minimum and maximum values of vector. Similarly, if
+\code{k} is missing then function consider it same to length of main vector. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986).
+}
 \examples{
- y <- rexp(100,1)
-h <- 0.79 * IQR(y) * length(y) ^ (-1/5)
-BS(y,200,h)
+## Data: Simulated or real data can be used
+## Number of grid points "k" should be at least equal to the data size.
+## If user defines the generating scheme of grid points then length
+## of grid points should be equal or greater than "k", Otherwise NA will be produced.
+alpha = 10
+theta = 15 / 60
+
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+xx <- seq(min(y) + 0.05, max(y), length =200)
+h <- 1.1
+den <- BS(x = xx, y = y, k = 200, h = h)
+
+##If scheme for generating grid points is unknown
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+h <- 3
+BS(y = y, k = 90, h = h)
+
+\dontrun{
+##If user do not mention the number of grid points
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+xx <- seq(0.001, 1000, length = 1000)
+
+#any bandwidth can be used
+require(KernSmooth)
+h <- dpik(y)     #Direct Plug-In Bandwidth
+BS(x = xx, y = y, h = h)
+}
+
+\dontrun{
+#if both generating scheme and number of grid points are missing then function generate NA
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+band = 3
+BS(y = y, h = band)
+}
+
+#if bandwidth is missing
+y <- rgamma(n = 1000, shape = alpha, scale = theta)
+xx <- seq(0.001, 100, length = 1000)
+BS(x = xx, y = y, k = 900)
 }
 \references{
-Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103–124.
+Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
 }
 \seealso{
-For further kernels see \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by using Birnbaum-Saunders Kernel \code{\link{mseBS}}.
+For further kernels see \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.
