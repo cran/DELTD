@@ -41,7 +41,7 @@ col=c("red", "black"), lty=c(1,2))
 Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
 }
 \seealso{
-For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Gamma}} and for
+For further kernels see \code{\link{plot.Beta}},  \code{\link{plot.BS}}, \code{\link{plot.Erlang}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Gamma}} and for
 MSE \code{\link{mse}}.
 }
 \author{

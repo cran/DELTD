@@ -35,7 +35,7 @@ plot(den, type = "l", ylab = "Density Function", lty = 1, xlab = "Time")
 Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
 }
 \seealso{
-For further kernels see \code{\link{plot.Gamma}}, \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Beta}} and for
+For further kernels see \code{\link{plot.BS}}, \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Beta}} and for
 MSE see \code{\link{mse}}.
 }
 \author{

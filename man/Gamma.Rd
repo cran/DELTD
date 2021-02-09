@@ -9,9 +9,9 @@ Gamma(x = NULL, y, k = NULL, h = NULL)
 \arguments{
 \item{x}{scheme for generating grid points}
 
-\item{y}{a numeric vector of positive values}
+\item{y}{a vector of positive values}
 
-\item{k}{number of gird points}
+\item{k}{number of grid points}
 
 \item{h}{the bandwidth}
 }
@@ -66,11 +66,13 @@ Gamma(x = xx, y = y, k = 90)
 
 }
 \references{
-Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
-Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
+\itemize{
+\item Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+\item Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
+}
 }
 \seealso{
-For further kernels see \code{\link{Erlang}}, \code{\link{BS}}, \code{\link{Beta}}and \code{\link{LogN}}. To plot its density see \code{\link{plot.Gamma}} and to calculate MSE \code{\link{mse}}.
+For further kernels see  \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}} and \code{\link{LogN}}. To plot its density see \code{\link{plot.Gamma}} and to calculate MSE \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

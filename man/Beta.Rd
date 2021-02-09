@@ -9,9 +9,9 @@ Beta(x = NULL, y, k = NULL, h = NULL)
 \arguments{
 \item{x}{scheme for generating grid points}
 
-\item{y}{a numeric vector of positive values}
+\item{y}{a vector of positive values}
 
-\item{k}{number of gird points}
+\item{k}{number of grid points}
 
 \item{h}{the bandwidth}
 }
@@ -27,7 +27,7 @@ Beta Kernel is
 \details{
 In this function, choice of bandwidth, number of grid points and scheme that how these grid points are generated are user based. If any parameter(s) is missing then function used default parameters.
 But at least \code{x} or \code{k} should be specified otherwise \code{NA} will be produced. If \code{x} is missing then function will generate \code{k} grid points by using uniform distribution. Similarly, if
-\code{k} is missing then function consider it same to length of main vector. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986). This function can be onlt used if
+\code{k} is missing then function consider it same to length of main vector \code{y}. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986). This function can be onlt used if
 data is between (0, 1). Similarly, \code{x} should be also lies between (0, 1).
 }
 \examples{
@@ -74,7 +74,7 @@ Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica S
 Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
 }
 \seealso{
-For further kernels see \code{\link{Erlang}}, \code{\link{BS}}, \code{\link{Gamma}}and \code{\link{LogN}}. To plot its density see \code{\link{plot.Beta}} and to calculate MSE \code{\link{mse}}.
+For further kernels see \code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}. To plot its density see \code{\link{plot.Beta}} and to calculate MSE \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

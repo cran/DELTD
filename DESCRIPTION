@@ -1,7 +1,7 @@
 Package: DELTD
 Type: Package
 Title: Kernel Density Estimation using Lifetime Distributions
-Version: 2.6.6
+Version: 2.6.7
 Author: Javaria Ahmad Khan, Atif Akbar.
 Maintainer: Javaria Ahmad Khan <jakhan0@yahoo.com>
 Description: A collection of asymmetrical kernels belong to lifetime distributions for kernel density estimation is presented. 
@@ -13,6 +13,6 @@ LazyData: true
 RoxygenNote: 6.1.1
 URL: https://CRAN.R-project.org/package=DELTD
 NeedsCompilation: no
-Packaged: 2020-11-19 05:02:29 UTC; Intag
+Packaged: 2021-02-09 06:20:31 UTC; Intag
 Repository: CRAN
-Date/Publication: 2020-11-19 13:20:02 UTC
+Date/Publication: 2021-02-09 06:30:02 UTC

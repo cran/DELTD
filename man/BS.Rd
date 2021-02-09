@@ -9,9 +9,9 @@ BS(x = NULL, y, k = NULL, h = NULL)
 \arguments{
 \item{x}{scheme for generating grid points}
 
-\item{y}{a numeric vector of positive values.}
+\item{y}{a vector of positive values.}
 
-\item{k}{gird points}
+\item{k}{grid points}
 
 \item{h}{the bandwidth}
 }
@@ -27,7 +27,7 @@ boundary points in terms of boundary reduction.
 \details{
 In this function, choice of bandwidth, number of grid points and scheme that how these grid points are generated are user based. If any parameter(s) is missing then function used default parameters.
 But at least \code{x} or \code{k} should be specified otherwise \code{NA} will be produced. If \code{x} is missing then function will generate \code{k} grid points between minimum and maximum values of vector. Similarly, if
-\code{k} is missing then function consider it same to length of main vector. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986).
+\code{k} is missing then function consider it same to length of main vector \code{y}. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986).
 }
 \examples{
 ## Data: Simulated or real data can be used
@@ -74,7 +74,7 @@ BS(x = xx, y = y, k = 900)
 Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
 }
 \seealso{
-For further kernels see \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by \code{\link{mse}}.
+For further kernels see \code{\link{Beta}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

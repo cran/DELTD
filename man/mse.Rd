@@ -2,14 +2,14 @@
 % Please edit documentation in R/DELTD.R
 \name{mse}
 \alias{mse}
-\title{Calculate Mean Squared Error( MSE) by using different Kernels}
+\title{Calculate Mean Squared Error(MSE) by using different Kernels}
 \usage{
 mse(kernel, type)
 }
 \arguments{
 \item{kernel}{type of kernel which is to be used}
 
-\item{type}{mention distribution of vector.If exponential distribution then use \code{"Exp"}.
+\item{type}{mention distribution of vector. If exponential distribution then use \code{"Exp"}.
 If use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.}
 }
 \value{
