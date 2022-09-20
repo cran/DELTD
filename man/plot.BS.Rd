@@ -20,14 +20,14 @@ Plot Kernel density by using Birnbaum-Saunders Kernel.
 \examples{
 alpha = 10
 theta = 15 / 60
-y <- rgamma(n = 1000, shape = alpha, scale = theta)
+y <- rgamma(n = 10000, shape = alpha, scale = theta)
 h <- 1.5
 xx <- seq(min(y) + 0.05, max(y), length = 200)
 den <- BS(x = xx, y = y, k = 200, h = h)
 plot(den, type = "l")
 
 ##other details can also be added
-y <- rgamma(n = 1000, shape = alpha, scale = theta)
+y <- rgamma(n = 10000, shape = alpha, scale = theta)
 h <- 0.79 * IQR(y) * length(y) ^ (-1/5)  #Normal Scale Rule Bandwidth
 gr <- BS(x = xx, y = y, k = 200, h = h)
 plot(gr, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")

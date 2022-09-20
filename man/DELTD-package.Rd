@@ -8,9 +8,15 @@
 \description{
 A collection of asymmetrical kernels belong to lifetime distributions for kernel density estimation is presented. i.e. \code{\link{plot.BS}}, \code{\link{plot.Beta}}, \code{\link{plot.Erlang}},
 \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. Estimated values can also observed by using
-\code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. For calculating mean squared error by using different kernel functions are \code{\link{mse}} can be used.
+\code{\link{Beta}}, \code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}. For calculating mean squared error by using different kernels functions are \code{\link{mse}} can be used.
+
+A collection of asymmetrical kernels belong to lifetime distributions for kernel density estimation is presented. i.e. \code{\link{plot.BS}}, \code{\link{plot.Erlang}},
+\code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. Estimated values can also observed by using
+\code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}, where data can belong to any distribution. For calculating mean squared error by using different kernel functions  \code{\link{mse}} .
 }
 \details{
+Kernel Density Estimation using Lifetime Distributions
+
 Kernel Density Estimation using Lifetime Distributions
 }
 \references{
@@ -19,6 +25,14 @@ Kernel Density Estimation using Lifetime Distributions
 \item Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141–152.
 \item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
 \item Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
+\item Buckland, S. T.; Burnham, K. P.; Anderson, D. R.; Laake, J. L. 1993. \emph{Density Estimation using Distance Sampling}. Chapman & Hall, London.
+}
+
+\itemize{
+\item Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
+\item Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141-152.
+\item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+\item Chen, S. X. 2000.Beta kernel smoothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
 }
 }
 \seealso{
@@ -27,7 +41,15 @@ Useful links:
   \item \url{https://CRAN.R-project.org/package=DELTD}
 }
 
+
+Useful links:
+\itemize{
+  \item \url{https://CRAN.R-project.org/package=DELTD}
+}
+
 }
 \author{
+Javaria Ahmad Khan, Atif Akbar.
+
 Javaria Ahmad Khan, Atif Akbar.
 }

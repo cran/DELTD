@@ -9,9 +9,9 @@ LogN(x = NULL, y, k = NULL, h = NULL)
 \arguments{
 \item{x}{scheme for generating grid points}
 
-\item{y}{a vector of positive values.}
+\item{y}{a numeric vector of positive values.}
 
-\item{k}{grid points.}
+\item{k}{gird points.}
 
 \item{h}{the bandwidth}
 }
@@ -72,7 +72,7 @@ LogN(x = xx, y = y, k = 90)
 Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
 }
 \seealso{
-For further kernels see \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}} and \code{\link{Gamma}}. To plot its density see \code{\link{plot.LogN}} and to calculate MSE use \code{\link{mse}}.
+For further kernels see \code{\link{Beta}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{BS}}. To plot its density see \code{\link{plot.LogN}} and to calculate MSE use \code{\link{mse}}.
 }
 \author{
 Javaria Ahmad Khan, Atif Akbar.

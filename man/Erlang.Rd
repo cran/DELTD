@@ -9,9 +9,9 @@ Erlang(x = NULL, y, k = NULL, h = NULL)
 \arguments{
 \item{x}{scheme for generating grid points}
 
-\item{y}{a vector of positive values.}
+\item{y}{a numeric vector of positive values.}
 
-\item{k}{grid points.}
+\item{k}{gird points.}
 
 \item{h}{the bandwidth}
 }

@@ -41,7 +41,7 @@ col = c("green", "black"), lty = c(1,2))
 Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
 }
 \seealso{
-For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.BS}}, \code{\link{plot.Erlang}} and \code{\link{plot.Gamma}}. To calculate MSE use \code{\link{mse}} and for estimated values for density
+For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.BS}}. To calculate MSE use \code{\link{mse}} and for estimated values for density
 estimation see \code{\link{LogN}}.
 }
 \author{

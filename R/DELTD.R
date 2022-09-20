@@ -4,15 +4,33 @@
 #'
 #' @description  A collection of asymmetrical kernels belong to lifetime distributions for kernel density estimation is presented. i.e. \code{\link{plot.BS}}, \code{\link{plot.Beta}}, \code{\link{plot.Erlang}},
 #' \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. Estimated values can also observed by using
-#' \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. For calculating mean squared error by using different kernel functions are \code{\link{mse}} can be used.
+#' \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}. For calculating mean squared error by using different kernels functions are \code{\link{mse}} can be used.
 #'@author Javaria Ahmad Khan, Atif Akbar.
 #'@references \itemize{
 #'\item Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103–124.
 #'\item Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141–152.
 #'\item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
 #'\item Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
+#'\item Buckland, S. T.; Burnham, K. P.; Anderson, D. R.; Laake, J. L. 1993. \emph{Density Estimation using Distance Sampling}. Chapman & Hall, London.
 #'}
 "_PACKAGE"
+
+#' DELTD
+#'
+#' Kernel Density Estimation using Lifetime Distributions
+#'
+#' @description  A collection of asymmetrical kernels belong to lifetime distributions for kernel density estimation is presented. i.e. \code{\link{plot.BS}}, \code{\link{plot.Erlang}},
+#' \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. Estimated values can also observed by using
+#' \code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}, where data can belong to any distribution. For calculating mean squared error by using different kernel functions  \code{\link{mse}} .
+#'@author Javaria Ahmad Khan, Atif Akbar.
+#'@references \itemize{
+#'\item Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
+#'\item Salha, R. B.; Ahmed, E. S.; Alhoubi, I. M. 2014. Hazard rate function estimation using Erlang Kernel. \emph{Pure Mathematical Sciences} \strong{3} (4), 141-152.
+#'\item Chen, S. X. 2000. Probability density function estimation using Gamma kernels. \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+#'\item Chen, S. X. 2000.Beta kernel smoothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
+#'}
+"_PACKAGE"
+
 
 #' Estimate Density Values by Gamma kernel
 #'
@@ -22,8 +40,8 @@
 
 #' @details see the details in the \code{\link{BS}}.
 #' @param x scheme for generating grid points
-#' @param y a vector of positive values
-#' @param k number of grid points
+#' @param y a numeric vector of positive values
+#' @param k number of gird points
 #' @param h the bandwidth
 #' @import stats
 #' @examples
@@ -39,6 +57,13 @@
 #' y <- rexp(200, 1)
 #' h <- 3
 #' Gamma(y = y, k = 90, h = h)
+#'
+#'\dontrun{
+#' y <- data(TUNA)
+#' xx <- seq(min(y) + 0.05, max(y), length = 500)
+#' h <- 2
+#' den <- Gamma(x = xx, y = y, k = 200, h = h)
+#' }
 #'
 #' \dontrun{
 #' ##If user do not mention the number of grid points
@@ -66,11 +91,9 @@
 #' @return \item{x}{grid points}
 #'         \item{y}{estimated values of density}
 #' @author Javaria Ahmad Khan, Atif Akbar.
-#' @references \itemize{
-#'\item Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
-#' \item Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
-#' }
-#' @seealso For further kernels see  \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}} and \code{\link{LogN}}. To plot its density see \code{\link{plot.Gamma}} and to calculate MSE \code{\link{mse}}.
+#' @references Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
+#' Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
+#' @seealso For further kernels see \code{\link{Erlang}}, \code{\link{BS}}, \code{\link{Beta}}and \code{\link{LogN}}. To plot its density see \code{\link{plot.Gamma}} and to calculate MSE \code{\link{mse}}.
 #' @export
 Gamma <- function(x = NULL, y, k = NULL, h = NULL){
   n <- length(y)
@@ -91,7 +114,7 @@ Gamma <- function(x = NULL, y, k = NULL, h = NULL){
   results <- list(x = x,
                   y = fhat)
   class ( results ) <- c('list',
-                         'Gamma')
+                        'Gamma')
   results
 }
 #' Estimate Density Values by Beta kernel
@@ -101,11 +124,11 @@ Gamma <- function(x = NULL, y, k = NULL, h = NULL){
 #' \deqn{K_{Beta( \frac{x}{h}+1, \frac{1-x}{h}+1)}(y)=\frac{y^ \frac{x}{h} (1-y)^{\frac{1-x}{b}}} { B \{ \frac{x}{h}+1, \frac{(1-x)}{h}+1 \}}}
 #' @details In this function, choice of bandwidth, number of grid points and scheme that how these grid points are generated are user based. If any parameter(s) is missing then function used default parameters.
 #' But at least \code{x} or \code{k} should be specified otherwise \code{NA} will be produced. If \code{x} is missing then function will generate \code{k} grid points by using uniform distribution. Similarly, if
-#' \code{k} is missing then function consider it same to length of main vector \code{y}. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986). This function can be onlt used if
+#' \code{k} is missing then function consider it same to length of main vector. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986). This function can be only used if
 #' data is between (0, 1). Similarly, \code{x} should be also lies between (0, 1).
 #' @param x scheme for generating grid points
-#' @param y a vector of positive values
-#' @param k number of grid points
+#' @param y a numeric vector of positive values
+#' @param k number of gird points
 #' @param h the bandwidth
 #' @import stats
 #' @examples
@@ -151,7 +174,7 @@ Gamma <- function(x = NULL, y, k = NULL, h = NULL){
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
 #' Silverman, B. W. 1986. \emph{Density Estimation}. Chapman & Hall/ CRC, London.
-#' @seealso For further kernels see \code{\link{BS}}, \code{\link{Gamma}}, \code{\link{Erlang}} and \code{\link{LogN}}. To plot its density see \code{\link{plot.Beta}} and to calculate MSE \code{\link{mse}}.
+#' @seealso For further kernels see \code{\link{Erlang}}, \code{\link{BS}}, \code{\link{Gamma}}and \code{\link{LogN}}. To plot its density see \code{\link{plot.Beta}} and to calculate MSE \code{\link{mse}}.
 #' @export
 Beta <- function(x = NULL, y, k = NULL, h = NULL){
   n <- length(y)
@@ -204,7 +227,7 @@ Beta <- function(x = NULL, y, k = NULL, h = NULL){
 #' @return nothing
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Chen, S. X. 2000. Beta kernel smothers for regression curves. \emph{Statistica Sinica} \strong{10}, 73-91.
-#' @seealso For further kernels see \code{\link{plot.BS}}, \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Beta}} and for
+#' @seealso For further kernels see \code{\link{plot.Gamma}}, \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Beta}} and for
 #' MSE see \code{\link{mse}}.
 #' @export
 plot.Beta <- function(x,...) {
@@ -240,17 +263,17 @@ plot.Beta <- function(x,...) {
 #' @return nothing
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Chen, S. X. 2000. Probability density function estimation using Gamma kernels.  \emph{Annals of the Institute of Statistical Mathematics} \strong{52} (3), 471-480.
-#' @seealso For further kernels see \code{\link{plot.Beta}},  \code{\link{plot.BS}}, \code{\link{plot.Erlang}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Gamma}} and for
+#' @seealso For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.BS}} and \code{\link{plot.LogN}}. To calculate its estimated values see \code{\link{Gamma}} and for
 #' MSE \code{\link{mse}}.
 #' @export
 plot.Gamma <- function(x,...) {
   plot(x$x, x$y,...)
 }
-#' Calculate Mean Squared Error(MSE) by using different Kernels
+#' Calculate Mean Squared Error( MSE) by using different Kernels
 #'
 #' This function calculates the mean squared error (MSE) by using user specified kernel. But distribution of vector should be Exponential, Gamma or Weibull. Any other choice of distribution will result \code{NaN}.
 #' @param kernel type of kernel which is to be used
-#' @param type mention distribution of vector. If exponential distribution then use \code{"Exp"}.
+#' @param type mention distribution of vector.If exponential distribution then use \code{"Exp"}.
 #'     If use gamma distribution then use \code{"Gamma"}.If Weibull distribution then use \code{"Weibull"}.
 #' @import stats
 #' @author Javaria Ahmad Khan, Atif Akbar.
@@ -289,8 +312,8 @@ mse<-function(kernel,type){
 #' \deqn{K_{LN(\ln(x),4\ln(1+h))}=\frac{1}{\sqrt{( 8\pi \ln(1+h))} y)} exp\left[-\frac{(\ln(y)-\ln(x))^2}{(8\ln(1+h))}\right]}
 #' @details see the details in the \code{\link{BS}}.
 #' @param x scheme for generating grid points
-#' @param y a vector of positive values.
-#' @param k grid points.
+#' @param y a numeric vector of positive values.
+#' @param k gird points.
 #' @param h the bandwidth
 #' @import stats
 #' @examples
@@ -336,7 +359,7 @@ mse<-function(kernel,type){
 #'         \item{y}{estimated values of density}
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
-#' @seealso For further kernels see \code{\link{Beta}}, \code{\link{BS}}, \code{\link{Erlang}} and \code{\link{Gamma}}. To plot its density see \code{\link{plot.LogN}} and to calculate MSE use \code{\link{mse}}.
+#' @seealso For further kernels see \code{\link{Beta}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{BS}}. To plot its density see \code{\link{plot.LogN}} and to calculate MSE use \code{\link{mse}}.
 #' @export
 LogN<-function(x = NULL, y, k = NULL, h = NULL){
   n <- length(y)
@@ -349,7 +372,7 @@ LogN<-function(x = NULL, y, k = NULL, h = NULL){
   KLNormal <- matrix(rep(0, k * n), ncol = k)
   ###########Lognormal###########
   for(j in 1:k) {
-    for(i in 1:n) {
+   for(i in 1:n) {
 
       KLNormal [i, j] <-(1 / (y[i] * sqrt(8 * pi * log(1 + h)))) * exp( - (((log(y[i]) - log(x[j])) ^ 2) / (8 * log(1 + h))))
     }}
@@ -357,7 +380,7 @@ LogN<-function(x = NULL, y, k = NULL, h = NULL){
   results <- list(x = x,
                   y = fhat)
   class ( results ) <- c('list',
-                         'LogN')
+                        'LogN')
   results
 }
 
@@ -390,7 +413,7 @@ LogN<-function(x = NULL, y, k = NULL, h = NULL){
 #' @return Nothing
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
-#' @seealso For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.BS}}, \code{\link{plot.Erlang}} and \code{\link{plot.Gamma}}. To calculate MSE use \code{\link{mse}} and for estimated values for density
+#' @seealso For further kernels see \code{\link{plot.Beta}}, \code{\link{plot.Erlang}}, \code{\link{plot.Gamma}} and \code{\link{plot.BS}}. To calculate MSE use \code{\link{mse}} and for estimated values for density
 #' estimation see \code{\link{LogN}}.
 #' @export
 plot.LogN <- function(x,...) {
@@ -404,8 +427,8 @@ plot.LogN <- function(x,...) {
 #' \deqn{K_{E(x,\frac{1}{h})}  (y)=\frac{1}{\Gamma (1+\frac{1}{h})} \left[\frac{1}{x} (1+\frac{1}{h}) \right]^\frac{h+1}{h} y^\frac{1}{h} exp\left(-\frac{y}{x} (1+\frac{1}{h}) \right)}
 #' @details see the details in the \code{\link{BS}}.
 #' @param x scheme for generating grid points
-#' @param y a vector of positive values.
-#' @param k grid points.
+#' @param y a numeric vector of positive values.
+#' @param k gird points.
 #' @param h the bandwidth
 #' @import stats
 #' @author Javaria Ahmad Khan, Atif Akbar.
@@ -517,16 +540,16 @@ plot.Erlang <- function(x,...) {
 #'
 #' @details In this function, choice of bandwidth, number of grid points and scheme that how these grid points are generated are user based. If any parameter(s) is missing then function used default parameters.
 #' But at least \code{x} or \code{k} should be specified otherwise \code{NA} will be produced. If \code{x} is missing then function will generate \code{k} grid points between minimum and maximum values of vector. Similarly, if
-#' \code{k} is missing then function consider it same to length of main vector \code{y}. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986).
+#' \code{k} is missing then function consider it same to length of main vector. In case if \code{h} is missing then function used normal scale rule bandwidth for non-normal data and described in Silverman (1986).
 
 #' @param x scheme for generating grid points
-#' @param y a vector of positive values.
-#' @param k grid points
+#' @param y a numeric vector of positive values.
+#' @param k gird points
 #' @param h the bandwidth
 #' @import stats
 #' @author Javaria Ahmad Khan, Atif Akbar.
 #' @references Jin, X.; Kawczak, J. 2003. Birnbaum-Saunders & Lognormal kernel estimators for modeling durations in high frequency financial data. \emph{Annals of Economics and Finance} \strong{4}, 103-124.
-#' @seealso For further kernels see \code{\link{Beta}}, \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by \code{\link{mse}}.
+#' @seealso For further kernels see \code{\link{Erlang}}, \code{\link{Gamma}} and \code{\link{LogN}}. To plot the density by using BS kernel \code{\link{plot.BS}} and to calculate MSE by \code{\link{mse}}.
 #'
 #' @examples
 #' ## Data: Simulated or real data can be used
@@ -592,7 +615,7 @@ BS<-function(x = NULL, y, k = NULL, h = NULL){
                   y = fhat)
 
   class ( results ) <- c('list',
-                         'BS')
+                        'BS')
   results
 }
 
@@ -609,14 +632,14 @@ BS<-function(x = NULL, y, k = NULL, h = NULL){
 #' @examples
 #' alpha = 10
 #' theta = 15 / 60
-#' y <- rgamma(n = 1000, shape = alpha, scale = theta)
+#' y <- rgamma(n = 10000, shape = alpha, scale = theta)
 #' h <- 1.5
 #' xx <- seq(min(y) + 0.05, max(y), length = 200)
 #' den <- BS(x = xx, y = y, k = 200, h = h)
 #' plot(den, type = "l")
 #'
 #' ##other details can also be added
-#' y <- rgamma(n = 1000, shape = alpha, scale = theta)
+#' y <- rgamma(n = 10000, shape = alpha, scale = theta)
 #' h <- 0.79 * IQR(y) * length(y) ^ (-1/5)  #Normal Scale Rule Bandwidth
 #' gr <- BS(x = xx, y = y, k = 200, h = h)
 #' plot(gr, type = "s", ylab = "Density Function", lty = 1, xlab = "Time")
@@ -631,3 +654,17 @@ BS<-function(x = NULL, y, k = NULL, h = NULL){
 plot.BS <- function(x,...) {
   plot(x$x, x$y,...)
 }
+"TUNA"
+#'
+#'
+#' Data of Tuna fish
+#'
+#' Data is about Tuna, which is saltwater fish. Its seasonal migration is between waters off the coast of Australia and the Indian Ocean. The data represents a line transect aerial survey of
+#' Southern Bluefin Tuna in the Great Australian Bight in summer when the tuna tend to stay on the surface. The abundance D is measured by \deqn{D = \frac{N}{A}} , where N is the total number of surface
+#' schools in the Bight and A is the survey area. To estimate D, an aircraft with two spotters on board is used to fly randomly allocated transect lines to detect tuna schools.
+#' Each school sighted from transect is counted and its perpendicular distance to transect is measured.
+#'
+#' @format A vector with 64 observations
+#' @references  Buckland, S. T.; Burnham, K. P.; Anderson, D. R.; Laake, J. L. 1993. \emph{Density Estimation using Distance Sampling}. Chapman & Hall, London.
+"TUNA"
+#'
